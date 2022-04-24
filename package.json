@@ -1,0 +1,22 @@
+{
+  "name": "kyroapp",
+  "version": "1.0.0",
+  "description": "Tv show recommendation",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BhuvanM/KyroAssignment/tree/main"
+  },
+  "author": "BhuvaneshwarM",
+  "license": "ISC",
+  "dependencies": {
+    "alert": "^5.0.10",
+    "alert-node": "^5.0.3",
+    "express": "^4.17.3",
+    "pug": "^3.0.2"
+  }
+}
