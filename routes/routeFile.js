@@ -7,8 +7,15 @@ let route = {
         });
     },
 
-    login: function (app) {
+    auth: function (app) {
         app.get('/',function(req,res){
+            controller.auth(req,res);
+        });
+    },
+
+    login: function (app) {
+        app.get('/login',function(req,res){
+            controller.login(req,res);
         });
     },
 

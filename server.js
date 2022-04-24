@@ -6,7 +6,7 @@ const port = 3000;
 
 app.set('view engine','pug');
 
-// routes.auth(app);
+routes.auth(app);
 routes.signup(app);
 routes.homepage(app);
 routes.logout(app);
