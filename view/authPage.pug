@@ -6,11 +6,11 @@ body
     h1 Login
     form(action="/login" id=otp)
         label(for="Username") Username: 
-        input(type="text" name="Username" value=username)
+        input(type="text" name="username" value=username)
         br
         br
         label(for="Password") Password: 
-        input(type="text" name="Password" value=password)
+        input(type="text" name="password" value=password)
         br
         br
         button(type="submit" id="usernameLog") Submit
@@ -21,19 +21,15 @@ body
     h1 Signup
     form(action="/signup" id=otp)
         label(for="Username") Username: 
-        input(type="text" name="Username" value=username)
+        input(type="text" name="username" value=username)
         br
         br
-        label(for="E-mail") E-mail: 
-        input(type="text" name="E-mail" value=Email)
-        br
-        br
-        label(for="DOB") DOB: 
-        input(type="text" name="DOB" value=DOB)
+        label(for="email") E-mail: 
+        input(type="text" name="email" value=email)
         br
         br
         label(for="New Password") New Password: 
-        input(type="text" name="Password" value=password)
+        input(type="text" name="password" value=password)
         br
         br
         button(type="submit" id="usernameLog") Submit

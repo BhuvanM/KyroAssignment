@@ -1,15 +1,16 @@
 const controller = require("../controller");
 
 let route = {
-    homepage: function (app) {
-        app.get("/homepage",function(req,res){
-            controller.homepage(req,res);
-        });
-    },
 
     auth: function (app) {
         app.get('/',function(req,res){
             controller.auth(req,res);
+        });
+    },
+
+    signup: function (app) {
+        app.get('/signup',function(req,res){
+            controller.signup(req,res);
         });
     },
 
@@ -19,15 +20,15 @@ let route = {
         });
     },
 
-    signup: function (app) {
-        app.get('/signup',function(req,res){
-
+    homepage: function (app) {
+        app.get("/homepage",function(req,res){
+            controller.homepage(req,res);
         });
     },
 
     logout: function(app) {
         app.get('/logout',function(req,res){
-
+            controller.logout(req,res);
         });
     }
 };
