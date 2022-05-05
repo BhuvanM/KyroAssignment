@@ -105,6 +105,25 @@ function getNewShow(userId,cb){
     });
 }
 
+function getReccHistory(userId,cb){
+    let getHistory = Promise.promisify(Tables.getRecommendationHistory)
+
+    getHistory(userId).then((history)=>{
+        cb(null,history);
+    }).catch((err)=>{
+        console.log(err);
+        cb("error",null);
+    });
+}
+
+function clearRecHistory(userId,cb){
+    let clearHistory = Promise.promisify(Tables.clearRecommendationHistory);
+    clearHistory(userId).then((data)=>{
+        cb(null,data);
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
 
 module.exports = {serviceChecking,
     signupValidation,
@@ -115,5 +134,7 @@ module.exports = {serviceChecking,
     authenticate,
     tokenChecking,
     getashow,
-    getNewShow
+    getNewShow,
+    getReccHistory,
+    clearRecHistory
     };

@@ -105,12 +105,30 @@ function showNotRecommended(userId,show,cb){
     })
 }
 
+function getRecommendationHistory(userId,cb){
+    recHistory.findAll({where: {CredentialId : userId } }).then(historyDetails => {
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",historyDetails);
+        cb(null,historyDetails);
+    }
+    ).catch((err) => {
+        console.log(err); 
+         cb("error",null);
+    })}
 
-
+function clearRecommendationHistory(userId, cb){
+    recHistory.destroy({where: {CredentialId : userId}}).then(data =>{
+        cb(null,data);
+    }).catch((err)=>{
+        console.log(err);
+        cb(err,null);
+    });
+}
 module.exports = {
     create,
     enter,
     authenticate,
     showNotRecommended,
-    enterReccShow
+    enterReccShow,
+    getRecommendationHistory,
+    clearRecommendationHistory
 }

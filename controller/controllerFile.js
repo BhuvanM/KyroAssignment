@@ -79,10 +79,11 @@ function homepage(req, res) {  // homepage
     }
     else {
         if(userId){
-            alert("Wlecome to Kyro TV");
             let serv = Promise.promisify(service.getNewShow);
             serv(userId).then(show => {
-                res.send(show);
+                // res.send(show);
+                res.render(path.resolve("view/homePage.pug"), {show: show, userId: userId});
+
             }).catch(error => {
                     alert(error)
             })
@@ -90,6 +91,64 @@ function homepage(req, res) {  // homepage
             res.redirect('/');
         }
         
+    }
+}
+
+function history(req,res){
+    console.log("!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",req.body);
+    let userId = req.query.userId;
+    if (!service.tokenChecking(req, res)) {   //Token checking from cookies to ensure you have gone through login or signup
+        alert("Session Timeout. Please Login again");
+        res.redirect('/');
+    }else {
+        if(userId){
+            alert("Your recommendation history");
+            let getReccHis = Promise.promisify(service.getReccHistory);
+            getReccHis(userId).then(history => {
+                 let recommendedShows = [];
+
+                 history.forEach(obj => {
+                    recommendedShows.push(obj.name);
+                 });
+                 //res.send(recommendedShows);
+                 res.render(path.resolve("view/history.pug"), {history : recommendedShows});
+            }).catch(error => {
+                    alert(error)
+            })
+        } else {
+            res.redirect('/');
+        }
+    }
+}
+
+function clearHistory(req,res){
+    let userId = req.query.userId;
+    if (!service.tokenChecking(req, res)) {   //Token checking from cookies to ensure you have gone through login or signup
+        alert("Session Timeout. Please Login again");
+        res.redirect('/');
+    }else {
+        if(userId){
+        let clearRecHis = Promise.promisify(service.clearRecHistory);
+        clearRecHis(userId).then((data)=>{
+            alert("Recommendations cleared")
+            console.log("Recommendation cleared");
+            res.redirect('/homepage?userId=' + userId);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+    else{
+        res.redirect('/logout');
+    }
+    }
+}
+
+function next(req,res){
+    let userId = req.query.userId;
+    if(userId){
+        res.redirect('/homepage?userId=' + userId);
+    } else {
+        res.redirect('/logout');
     }
 }
 
@@ -103,4 +162,7 @@ module.exports = {
     login,
     signup,
     homepage,
+    history,
+    clearHistory,
+    next,
     logout}

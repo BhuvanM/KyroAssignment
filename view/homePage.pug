@@ -1,0 +1,42 @@
+doctype html
+html
+    head
+        
+body
+    h1 Movie Recommendation of the day!
+    
+    br
+
+    h2 <strong>Show:</strong>  #{show.name}
+    p <strong>Description:</strong> #{show.summary}
+
+    br
+    p <strong>Language :</strong> #{show.language}
+    p <strong>Premiered :</strong> #{show.premiered}
+    
+
+    br
+    br
+    br
+
+    form(action='/next')
+        input(type='hidden' name='userId' value=userId)
+        button(type="submit") Next
+
+    br
+    br
+
+    form(action='/history')
+        input(type='hidden' name='userId' value=userId)
+        button(type="submit") history
+
+    form(action='/clearhistory' id=clearhistory)
+        input(type='hidden' name='userId' value=userId)
+        button(type="submit" id="clearhistory") Clear Recommendation History
+
+    br
+    br
+    br
+
+    form(action='/logout' id=logout)
+        button(type="submit" id="login") logout
