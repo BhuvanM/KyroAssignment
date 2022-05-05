@@ -1,5 +1,6 @@
 var Sequelize = require('sequelize');
 let credentials;
+let recHistory; //recommendation history
 
 function create(sequelize) {   //Creating the database models
     credentials = sequelize.define('Credentials', {
@@ -8,9 +9,22 @@ function create(sequelize) {   //Creating the database models
         password: Sequelize.STRING,
     })
 
+    recHistory = sequelize.define("recHistory", {
+        showId : Sequelize.INTEGER,
+        name : Sequelize.STRING,
+        language : Sequelize.STRING,
+        favourite : Sequelize.BOOLEAN
+    })
+
+    recHistory.belongsTo(credentials);
+
     credentials.sync().then(function () {
         console.log("credentials table created")
+        recHistory.sync().then(function(){
+            console.log("recommendation history table created");
+        })
     })
+    
 };
 
 function enter(signup, callback) { //entering user credentials into DB and ensuring that no username is taken twice to avoid conflict
@@ -33,6 +47,32 @@ function enter(signup, callback) { //entering user credentials into DB and ensur
 
 }
 
+function enterReccShow(userId, showDetails,cb){
+    let showID;
+    let showDbDetails = {
+        showId : showDetails.id,
+        name : showDetails.name,
+        language : showDetails.language,
+        CredentialId : userId
+    }
+    recHistory.findOne({ limit: 1, where: { showId: showDetails.id , CredentialId : userId } }).then(showDetails => {
+        if (showDetails != null) { 
+            callback("Show ID already taken, unexpected Behaviour!", null); 
+        }
+        else {
+            recHistory.sync().then(function () {
+                return recHistory.create(showDbDetails).then(function () {
+                        cb(null, showDbDetails.showId);
+                });
+            }).catch((err)=>{
+                console.log(err);
+            });
+        }
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
 function authenticate(login, callback) { //authenticate user credentials during login
 
     credentials.findOne({ limit: 1, where: { username: login.username } }).then(userDetails => {
@@ -52,8 +92,25 @@ function authenticate(login, callback) { //authenticate user credentials during 
     })
 }
 
+function showNotRecommended(userId,show,cb){
+    recHistory.findOne({ limit: 1, where: { showId: show , CredentialId : userId } }).then(showDetails => {
+        if(showDetails != null){
+            cb("recommended", null);
+        } else {
+            cb(null, show);
+        }
+    }
+    ).catch((err) => {
+        console.log(err);  
+    })
+}
+
+
+
 module.exports = {
     create,
     enter,
-    authenticate
+    authenticate,
+    showNotRecommended,
+    enterReccShow
 }

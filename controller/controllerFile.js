@@ -79,8 +79,13 @@ function homepage(req, res) {  // homepage
     }
     else {
         if(userId){
-            res.send('TV App');
             alert("Wlecome to Kyro TV");
+            let serv = Promise.promisify(service.getNewShow);
+            serv(userId).then(show => {
+                res.send(show);
+            }).catch(error => {
+                    alert(error)
+            })
         } else {
             res.redirect('/');
         }

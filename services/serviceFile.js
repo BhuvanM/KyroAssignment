@@ -5,6 +5,7 @@ let Cookies = require('cookies');
 let path = require('path');
 let Tables = require(path.resolve('./models'));
 let Promise = require("bluebird");
+let shows = require('./api/shows.js');
 
 let ajv = new Ajv();
 addFormats(ajv,["email"]);
@@ -91,6 +92,20 @@ function tokenDeletion(req, res) {
     cookies.set('AuthenticatedToken', "notAuthenticated", { signed: true })
 }
 
+function getashow(dat,cb){
+     shows.giveshow(cb);
+} 
+
+function getNewShow(userId,cb){
+    let getRandShow = Promise.promisify(shows.giveARandomShow);
+    getRandShow(userId).then((show)=>{
+        cb(null,show);
+    }).catch((err)=>{
+        console.log(err);
+    });
+}
+
+
 module.exports = {serviceChecking,
     signupValidation,
     tokenCreation,
@@ -99,4 +114,6 @@ module.exports = {serviceChecking,
     loginValidation,
     authenticate,
     tokenChecking,
+    getashow,
+    getNewShow
     };
