@@ -35,7 +35,7 @@ function login(req, res) {   //In case of login , credentials are verified and t
             service.tokenCreation(userId, req, res) //token stored in cookies
             res.redirect('/homepage?userId=' + userId);
         }).catch(error => {
-            alert(error)  //A pop up alert will be given in case of msimatch
+            alert(error);  //A pop up alert will be given in case of msimatch
             res.redirect('/')
         })
     }
@@ -95,7 +95,6 @@ function homepage(req, res) {  // homepage
 }
 
 function history(req,res){
-    console.log("!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",req.body);
     let userId = req.query.userId;
     if (!service.tokenChecking(req, res)) {   //Token checking from cookies to ensure you have gone through login or signup
         alert("Session Timeout. Please Login again");

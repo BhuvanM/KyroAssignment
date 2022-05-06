@@ -21,3 +21,10 @@ Technical Requirements:
     The code should have clear instructions to setup and run the webpage and service.
     Please write automated tests cases for your solution
     The code should be available on Github.
+
+
+Technical installation details:
+Hosting:
+1. Install postgres with necessary db credentials
+2. Config sequelise using the config file to establish connection to the db
+3. Configure the proper port for the website to appear

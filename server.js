@@ -7,7 +7,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 80;
 
 app.set('view engine','pug');
 // parse application/x-www-form-urlencoded
